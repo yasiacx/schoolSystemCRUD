@@ -1,0 +1,11 @@
+spring:
+   datasource:
+      username: small_business
+      password: small_business
+      url : jdbc:mysql://localhost:3306/schooldb
+      
+   jpa:
+      hibernate:
+         ddl-auto: update
+      show-sql : true
+      
