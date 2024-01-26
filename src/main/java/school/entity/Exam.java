@@ -1,6 +1,5 @@
 package school.entity;
 
- 
 import lombok.Data;
 import jakarta.persistence.*;
 
@@ -12,6 +11,9 @@ public class Exam {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long examId;
 
+    @Column(name="score")
+    private Float Score;
+    
     @ManyToOne
     @JoinColumn(name = "student_id")
     private Student student;
@@ -20,7 +22,5 @@ public class Exam {
     @JoinColumn(name = "course_id")
     private Course course;
 
-    @ManyToOne
-    @JoinColumn(name = "grade_id")
-    private Grade grade;
+   
 }

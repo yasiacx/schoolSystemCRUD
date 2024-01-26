@@ -9,7 +9,7 @@ import school.entity.Course;
 @NoArgsConstructor
 public class StudentCourse {
 	
-	 private Long courseId;
+	 private Long 	courseId;
 	 private String courseName;
 	 private String courseDescription;
  

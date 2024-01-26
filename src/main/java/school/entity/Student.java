@@ -27,12 +27,7 @@ public class Student {
     @ToString.Exclude
     private Set<Course> courses ;
 
-    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private Set<Grade> grades ;
     
-    
-    @OneToMany(mappedBy = "student")
+    @OneToMany(mappedBy = "student",cascade = CascadeType.ALL)
     private Set<Exam> exams;
 }

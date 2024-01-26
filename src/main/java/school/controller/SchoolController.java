@@ -10,7 +10,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import lombok.extern.slf4j.Slf4j;
+import school.controller.model.StudentCourse;
 import school.controller.model.StudentData;
+import school.controller.model.StudentExam;
+import school.entity.Exam;
 import school.service.SchoolService;
 
 
@@ -24,6 +27,7 @@ public class SchoolController {
 	
     
     // STUDENT : CREATE , UPDATE ,READ , DELETE
+	
 	    @PostMapping("/student")
 	    @ResponseStatus(HttpStatus.CREATED)
 	    public StudentData createStudent(@RequestBody StudentData studentData) {
@@ -55,7 +59,7 @@ public class SchoolController {
 	    
 	    @GetMapping("/student/{studentId}")
 	    public ResponseEntity<StudentData> getStudentById(@PathVariable Long studentId) {
-	        log.info("Received GET request for /pet_store with the ID: {}", studentId);
+	        log.info("Received GET request for student with the ID: {}", studentId);
 
 	        StudentData studentData = schoolService.getStudentById(studentId);
 
@@ -74,6 +78,59 @@ public class SchoolController {
 	        return ResponseEntity.ok(response);
 	    }
 	    
+	    
+	    /* COURSE : CREATE READ */ 
+	    @PostMapping("/student/{studentId}/course")
+	    @ResponseStatus(HttpStatus.CREATED)
+	    public StudentCourse addCourseToStudent(
+	            @PathVariable Long studentId,
+	            @RequestBody StudentCourse course) {
+
+ 	        log.info("Adding course to student with ID {}: {}", studentId, course);
+
+	        StudentCourse savedCourse = schoolService.saveCourse(studentId, course);
+
+	        return savedCourse;
+	    }
+	    
+	    @GetMapping("/student/{studentId}/courses")
+ 	    @ResponseStatus(HttpStatus.OK)
+	    public List<StudentCourse> getAllCoursesByStudent(
+	            @PathVariable Long studentId
+	    	) {
+	    	
+ 
+	    	List<StudentCourse> courseList = schoolService.getCoursesbyStudentId(studentId);
+ 	    	
+	    	return courseList;
+	    }
+	
+	    
+	    /* Exam : CREATE , READ  */
+	    @PostMapping("/student/{studentId}/course/{courseId}/exam")
+	    @ResponseStatus(HttpStatus.CREATED)
+	    public StudentExam createGrade(
+	            @PathVariable Long studentId,
+	            @PathVariable Long courseId,
+	            @RequestBody StudentExam exam) {
+
+ 	        log.info("Adding exam {}: {}",  exam);
+
+	        StudentExam savedExam = schoolService.saveExam(studentId,courseId,exam);
+
+	        return savedExam;
+	    }
+	    
+	    @GetMapping("/student/{studentId}/exams")
+	    public List<StudentExam> getExams(@PathVariable Long studentId) {
+	        log.info("Received GET request for students exams with the ID: {}", studentId);
+
+	        List<StudentExam> studentExam = schoolService.getExamsByStudentId(studentId);
+
+	        return studentExam;
+	    }
+	    
+	  
 	    
 
 }
