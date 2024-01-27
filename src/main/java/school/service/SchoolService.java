@@ -140,7 +140,7 @@ public class SchoolService {
 	    public StudentCourse saveCourse(Long studentId, StudentCourse studentCourse) {
 		  
 		  Student student = studentDao.findById(studentId)
-		            .orElseThrow(() -> new NoSuchElementException("Student not found with ID: " + studentId));
+		            .orElse(null);
 	        
 
 	        Long courseId = studentCourse.getCourseId();
@@ -152,22 +152,26 @@ public class SchoolService {
 
 	        
 	        
- 	        if(student.getCourses() == null) {
- 	        	student.setCourses( new HashSet<>());
+ 	        if(student != null) {
+ 	        	 if(student.getCourses() == null) {
+ 	 	        	student.setCourses( new HashSet<>());
+ 	 	        }
+ 	 	       student.getCourses().add(course);
+ 		        
+ 		        if (course.getStudents() == null) {
+ 		            course.setStudents(new HashSet<>());
+ 		            course.getStudents().add(student);
+ 		        }
+ 		        
+ 		        Set<Course> courses = student.getCourses();
+
+ 		        student.setCourses(courses);
+ 		        courses.add(course);
+ 	        }else {
+ 	        	course.setStudents(new HashSet<>());
+ 	        	courseDao.save(course);
  	        }
- 	       student.getCourses().add(course);
-	        
-	        if (course.getStudents() == null) {
-	            course.setStudents(new HashSet<>());
-	            course.getStudents().add(student);
-	        }
-	        
-	        Set<Course> courses = student.getCourses();
-
-	        courses.add(course);
-	        student.setCourses(courses);
-
-	   
+ 
 	        return new StudentCourse(course);	        
 	        
 	    }
@@ -376,6 +380,8 @@ public class SchoolService {
 			 	
 		        if(student.getExams() != null) {
 		        	List<StudentExam> exams = convertExamsIntoDto(student.getExams()); 
+					System.out.println("Exams defined");
+
 		        	return exams;
 		        }
  
@@ -397,9 +403,22 @@ public class SchoolService {
 
 				result.add(se);
 			}
+			System.out.println("Exiting the loop");
 			return result;
 			
 		}
+
+ 			 @Transactional
+			    public void deleteCourseById(Long courseId) {
+ 				 
+			        Course course = findCourseById(null,courseId);
+			        
+			        if(course != null) {
+			        	
+			        	courseDao.delete(course);
+			        	
+			        }
+			    }
 
 		 
 

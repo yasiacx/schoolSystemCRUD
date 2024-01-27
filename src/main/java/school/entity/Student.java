@@ -1,5 +1,5 @@
 package school.entity;
- 
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -16,18 +16,17 @@ public class Student {
 
     private String name;
 
-    
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
-        name = "student_course",
-        joinColumns = @JoinColumn(name = "student_id"),
-        inverseJoinColumns = @JoinColumn(name = "course_id")
+            name = "student_course",
+            joinColumns = @JoinColumn(name = "student_id"),
+            inverseJoinColumns = @JoinColumn(name = "course_id")
     )
+    private Set<Course> courses;
+
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    private Set<Course> courses ;
-
-    
-    @OneToMany(mappedBy = "student",cascade = CascadeType.ALL)
     private Set<Exam> exams;
+
 }

@@ -65,6 +65,7 @@ public class SchoolController {
 
 	        return ResponseEntity.ok(studentData);
 	    }
+	    
 	    @DeleteMapping("/student/{studentId}")
 	    public ResponseEntity<Map<String, String>> deleteStudentById(@PathVariable Long studentId) {
 	    	
@@ -79,7 +80,7 @@ public class SchoolController {
 	    }
 	    
 	    
-	    /* COURSE : CREATE READ */ 
+	    /* COURSE : CREATE READ DELETE */ 
 	    @PostMapping("/student/{studentId}/course")
 	    @ResponseStatus(HttpStatus.CREATED)
 	    public StudentCourse addCourseToStudent(
@@ -104,7 +105,20 @@ public class SchoolController {
  	    	
 	    	return courseList;
 	    }
-	
+	    
+	    @DeleteMapping("course/{courseId}")
+	    public ResponseEntity<Map<String, String>> deleteCourseById(@PathVariable Long courseId) {
+	    	
+	        log.info("Received DELETE request for /Course with the ID: {}", courseId);
+
+	        schoolService.deleteCourseById(courseId);
+
+	        Map<String, String> response = new HashMap<>();
+	        response.put("message", "Deletion successful");
+
+	        return ResponseEntity.ok(response);
+	    }
+	    
 	    
 	    /* Exam : CREATE , READ  */
 	    @PostMapping("/student/{studentId}/course/{courseId}/exam")
@@ -130,7 +144,10 @@ public class SchoolController {
 	        return studentExam;
 	    }
 	    
+	
+	    
 	  
+	 
 	    
 
 }
