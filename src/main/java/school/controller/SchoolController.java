@@ -66,7 +66,7 @@ public class SchoolController {
 	        return ResponseEntity.ok(studentData);
 	    }
 	    
-	    @DeleteMapping("/student/{studentId}")
+	    @DeleteMapping("/student/remove/{studentId}")
 	    public ResponseEntity<Map<String, String>> deleteStudentById(@PathVariable Long studentId) {
 	    	
 	        log.info("Received DELETE request for /student with the ID: {}", studentId);
